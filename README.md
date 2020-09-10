@@ -4,7 +4,7 @@ JavaScript REPL for Google D8 & Microsoft ChakraCore & Mozilla JSShell.
 
 Microsoft ChakraCore:
 
-https://github.com/microsoft/ChakraCore
+https://github.com/microsoft/ChakraCore/releases
 
 Mozilla JSShell:
 
