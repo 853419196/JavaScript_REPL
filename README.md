@@ -1,6 +1,6 @@
 # JavaScript REPL
 
-JavaScript REPL for Apple JSC & Google D8 & Microsoft ChakraCore & Mozilla JSShell.
+JavaScript REPL for Apple WebKit JSC & Google Chromium D8 & Microsoft ChakraCore & Mozilla SpiderMonkey JSShell.
 
 Microsoft ChakraCore:
 
