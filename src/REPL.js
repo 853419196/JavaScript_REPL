@@ -1,11 +1,12 @@
 "use strict";
 let _,_error,global=this,repl={};
-repl.__commandRegExp__=/^\.[^\.\d]?$/;
+repl.__commandRegExp__=/^\.[^.\d]?$/;
 function __evalFunction__(evalString)
 {
     if(evalString)
     {
-        if(repl.__commandRegExp__.test(evalString.slice(0,2)))switch(evalString)
+        var localNumber=evalString.search(/\S/);
+        if(repl.__commandRegExp__.test(evalString.slice(localNumber,localNumber+2)))switch(evalString.slice(localNumber).trimRight())
         {
             case ".editor":
             {
