@@ -11,7 +11,7 @@ function __evalFunction__(evalString)
             {
                 repl.__editorBoolean__=true;
                 repl.__inputStringArray__=[];
-                print("// Entering editor mode. (Enter empty to exit)");
+                print("// Entering editor mode. (Enter a blank line to exit)");
                 break;
             }
             case ".exit":
@@ -27,8 +27,8 @@ function __evalFunction__(evalString)
                 print(".help     Print this help message.");
                 print("----------------------------------");
                 print("JavaScript Variable:");
-                print("_         Last evaluate result.");
-                print("_error    Last throw error.");
+                print("_         Last evaluated result.");
+                print("_error    Last thrown error.");
                 print("global    Global object.");
                 print("----------------------------------");
                 print("JavaScript Function:");
