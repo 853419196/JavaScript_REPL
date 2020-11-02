@@ -1,11 +1,12 @@
 "use strict";
 let _,_error,global=this,repl={};
+repl.__nonSpaceRegExp__=/\S/;
 repl.__commandRegExp__=/^\.[^.\d]?$/;
 function __evalFunction__(evalString)
 {
     if(evalString)
     {
-        var localNumber=evalString.search(/\S/);
+        const localNumber=evalString.search(repl.__nonSpaceRegExp__);
         if(repl.__commandRegExp__.test(evalString.slice(localNumber,localNumber+2)))switch(evalString.slice(localNumber).trimRight())
         {
             case ".editor":
@@ -71,25 +72,25 @@ repl.__output__=function(output,throwBoolean)
     {
         case "bigint":
         {
-            let out=String(output)+"n";
+            const out=String(output)+"n";
             print(throwBoolean?"Uncaught "+out:"< "+out);
             break;
         }
         case "boolean":
         {
-            let out=String(output);
+            const out=String(output);
             print(throwBoolean?"Uncaught "+out:"< "+out);
             break;
         }
         case "function":
         {
-            let out="["+Object.prototype.toString.call(output).slice(8,-1)+": "+(output.name?repl.__toString__(output.name):"anonymous")+"]";
+            const out="["+Object.prototype.toString.call(output).slice(8,-1)+": "+(output.name?repl.__toString__(output.name):"anonymous")+"]";
             print(throwBoolean?"Uncaught "+out:"< "+out);
             break;
         }
         case "number":
         {
-            let out=String(output);
+            const out=String(output);
             print(throwBoolean?"Uncaught "+out:"< "+out);
             break;
         }
@@ -99,25 +100,25 @@ repl.__output__=function(output,throwBoolean)
             {
                 case "[object BigInt]":
                 {
-                    let out="[BigInt: "+String(output.valueOf())+"n]";
+                    const out="[BigInt: "+String(output.valueOf())+"n]";
                     print(throwBoolean?"Uncaught "+out:"< "+out);
                     break;
                 }
                 case "[object Boolean]":
                 {
-                    let out="[Boolean: "+String(output.valueOf())+"]";
+                    const out="[Boolean: "+String(output.valueOf())+"]";
                     print(throwBoolean?"Uncaught "+out:"< "+out);
                     break;
                 }
                 case "[object Date]":
                 {
-                    let out=repl.__toString__(output.toJSON());
+                    const out=isNaN(output)?String(output):repl.__toString__(output.toJSON());
                     print(throwBoolean?"Uncaught "+out:"< "+out);
                     break;
                 }
                 case "[object Error]":
                 {
-                    let out=repl.__toString__(output);
+                    const out=repl.__toString__(output);
                     if(throwBoolean)print("Uncaught "+out);
                     else
                     {
@@ -146,19 +147,19 @@ repl.__output__=function(output,throwBoolean)
                 }
                 case "[object Null]":
                 {
-                    let out=String(output);
+                    const out=String(output);
                     print(throwBoolean?"Uncaught "+out:"< "+out);
                     break;
                 }
                 case "[object Number]":
                 {
-                    let out="[Number: "+String(output.valueOf())+"]";
+                    const out="[Number: "+String(output.valueOf())+"]";
                     print(throwBoolean?"Uncaught "+out:"< "+out);
                     break;
                 }
                 case "[object RegExp]":
                 {
-                    let out=repl.__toString__(output);
+                    const out=repl.__toString__(output);
                     print(throwBoolean?"Uncaught "+out:"< "+out);
                     break;
                 }
@@ -184,7 +185,7 @@ repl.__output__=function(output,throwBoolean)
                 }
                 case "[object Symbol]":
                 {
-                    let out="[Symbol: "+String(output.valueOf())+"]";
+                    const out="[Symbol: "+String(output.valueOf())+"]";
                     if(out.indexOf("\n")>=0)
                     {
                         if(throwBoolean)
@@ -270,7 +271,7 @@ repl.__output__=function(output,throwBoolean)
         }
         case "symbol":
         {
-            let out=String(output);
+            const out=String(output);
             if(out.indexOf("\n")>=0)
             {
                 if(throwBoolean)
@@ -285,7 +286,7 @@ repl.__output__=function(output,throwBoolean)
         }
         case "undefined":
         {
-            let out=String(output);
+            const out=String(output);
             print(throwBoolean?"Uncaught "+out:"< "+out);
             break;
         }
