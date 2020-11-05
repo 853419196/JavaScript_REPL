@@ -84,7 +84,7 @@ repl.__output__=function(output,throwBoolean)
         }
         case "function":
         {
-            const out="["+Object.prototype.toString.call(output).slice(8,-1)+": "+(output.name?repl.__toString__(output.name):"anonymous")+"]";
+            const out="["+Object.prototype.toString.call(output).slice(8,-1)+(output.name?": "+repl.__toString__(output.name)+"]":" (anonymous)]");
             print(throwBoolean?"Uncaught "+out:"< "+out);
             break;
         }
@@ -210,7 +210,7 @@ repl.__output__=function(output,throwBoolean)
                             }
                             case "function":
                             {
-                                return "["+Object.prototype.toString.call(value).slice(8,-1)+": "+(value.name?repl.__toString__(value.name):"anonymous")+"]";
+                                return "["+Object.prototype.toString.call(value).slice(8,-1)+(value.name?": "+repl.__toString__(value.name)+"]":" (anonymous)]");
                             }
                             case "number":
                             {
