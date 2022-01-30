@@ -308,5 +308,6 @@ do
             __evalFunction__(repl.__inputStringArray__.join("\n"));
         }
     }
-}while(repl.__inputString__!=null);
+}
+while(repl.__inputString__!=null);
 print("// REPL was exited.");
