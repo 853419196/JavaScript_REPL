@@ -179,7 +179,7 @@ repl.__output__=function(output,throwBoolean)
                             print("Uncaught:");
                             print(out);
                         }
-                        else print("< "+out);
+                        else print("< "+out.replace(/\n/g,"\n. "));
                     }
                     break;
                 }
@@ -255,17 +255,13 @@ repl.__output__=function(output,throwBoolean)
             if(output.slice(0,-1).indexOf("\n")<0)print(throwBoolean?"Uncaught "+out:"< "+out);
             else
             {
+                out=out.slice(0,-2).replace(/(?:\b|[^\\])(?:\\\\)*\\n/g,"$&\\\n")+out.slice(-2);
                 if(throwBoolean)
                 {
-                    out=out.slice(0,-2).replace(/(?:\b|[^\\])(?:\\\\)*\\n/g,"$&\\\n")+out.slice(-2);
                     print("Uncaught:");
                     print(out);
                 }
-                else
-                {
-                    out=out[0]+"\\\n"+out.slice(1,-2).replace(/(?:^|\b|[^\\])(?:\\\\)*\\n/g,"$&\\\n")+out.slice(-2);
-                    print("< "+out);
-                }
+                else print("< "+out.replace(/\n/g,"\n. "));
             }
             break;
         }
