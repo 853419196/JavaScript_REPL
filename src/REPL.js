@@ -85,7 +85,16 @@ repl.__output__=function(output,throwBoolean)
         case "function":
         {
             const out="["+Object.prototype.toString.call(output).slice(8,-1)+(output.name?": "+repl.__toString__(output.name)+"]":" (anonymous)]");
-            print(throwBoolean?"Uncaught "+out:"< "+out);
+            if(out.indexOf("\n")>=0)
+            {
+                if(throwBoolean)
+                {
+                    print("Uncaught:");
+                    print(out);
+                }
+                else print("< "+out.replace(/\n/g,"\n. "));
+            }
+            else print(throwBoolean?"Uncaught "+out:"< "+out);
             break;
         }
         case "number":
