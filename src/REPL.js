@@ -27,24 +27,24 @@ function __evalFunction__(evalString)
             }
             case ".help":
             {
-                print("Console Command:");
-                print(".editor   Enter editor mode.");
-                print(".exit     Exit the REPL.");
-                print(".help     Print this help message.");
-                print("----------------------------------");
-                print("JavaScript Variable:");
-                print("_         Last evaluated result.");
-                print("_error    Last thrown error.");
-                print("global    Global object.");
-                print("----------------------------------");
-                print("JavaScript Function:");
-                print("print     Output function.");
-                print("readline  Input function.");
+                print("< Console Command:");
+                print("< .editor   Enter editor mode.");
+                print("< .exit     Exit the REPL.");
+                print("< .help     Print this help message.");
+                print("< ----------------------------------");
+                print("< JavaScript Variable:");
+                print("< _         Last evaluated result.");
+                print("< _error    Last thrown error.");
+                print("< global    Global object.");
+                print("< ----------------------------------");
+                print("< JavaScript Function:");
+                print("< print     Output function.");
+                print("< readline  Input function.");
                 break;
             }
             default:
             {
-                print("Invalid REPL keyword.");
+                print("< Invalid REPL keyword.");
             }
         }
         else try
@@ -61,7 +61,7 @@ function __evalFunction__(evalString)
             }
             catch(error)
             {
-                print("Uncaught "+repl.__toString__(error));
+                print("< Uncaught "+repl.__toString__(error));
             }
         }
     }
@@ -77,34 +77,31 @@ repl.__output__=function(output,throwBoolean)
         case "bigint":
         {
             const out=String(output)+"n";
-            print((throwBoolean?"Uncaught ":"< ")+(repl.VirtualTerminalLevel?"\x1b[93m"+out+"\x1b[39m":out));
+            print((throwBoolean?"< Uncaught ":"< ")+(repl.VirtualTerminalLevel?"\x1b[93m"+out+"\x1b[39m":out));
             break;
         }
         case "boolean":
         {
             const out=String(output);
-            print((throwBoolean?"Uncaught ":"< ")+(repl.VirtualTerminalLevel?"\x1b[93m"+out+"\x1b[39m":out));
+            print((throwBoolean?"< Uncaught ":"< ")+(repl.VirtualTerminalLevel?"\x1b[93m"+out+"\x1b[39m":out));
             break;
         }
         case "function":
         {
             const out="["+Object.prototype.toString.call(output).slice(8,-1)+(output.name?": "+repl.__toString__(output.name)+"]":" (anonymous)]");
-            if(out.indexOf("\n")<0)print((throwBoolean?"Uncaught ":"< ")+(repl.VirtualTerminalLevel?"\x1b[96m"+out+"\x1b[39m":out));
-            else
+            if(out.indexOf("\n")<0)print((throwBoolean?"< Uncaught ":"< ")+(repl.VirtualTerminalLevel?"\x1b[96m"+out+"\x1b[39m":out));
+            else if(throwBoolean)
             {
-                if(throwBoolean)
-                {
-                    print("Uncaught:");
-                    print(repl.VirtualTerminalLevel?"\x1b[96m"+out+"\x1b[39m":out);
-                }
-                else print("< "+(repl.VirtualTerminalLevel?"\x1b[96m"+out.replace(/\n/g,"\n\x1b[39m. \x1b[96m")+"\x1b[39m":out.replace(/\n/g,"\n. ")));
+                print("< Uncaught:");
+                print(repl.VirtualTerminalLevel?"\x1b[96m"+out+"\x1b[39m":out);
             }
+            else print("< "+(repl.VirtualTerminalLevel?"\x1b[96m"+out.replace(/\n/g,"\n\x1b[39m. \x1b[96m")+"\x1b[39m":out.replace(/\n/g,"\n. ")));
             break;
         }
         case "number":
         {
             const out=String(output);
-            print((throwBoolean?"Uncaught ":"< ")+(repl.VirtualTerminalLevel?"\x1b[93m"+out+"\x1b[39m":out));
+            print((throwBoolean?"< Uncaught ":"< ")+(repl.VirtualTerminalLevel?"\x1b[93m"+out+"\x1b[39m":out));
             break;
         }
         case "object":
@@ -114,25 +111,25 @@ repl.__output__=function(output,throwBoolean)
                 case "[object BigInt]":
                 {
                     const out="[BigInt: "+String(output.valueOf())+"n]";
-                    print((throwBoolean?"Uncaught ":"< ")+(repl.VirtualTerminalLevel?"\x1b[93m"+out+"\x1b[39m":out));
+                    print((throwBoolean?"< Uncaught ":"< ")+(repl.VirtualTerminalLevel?"\x1b[93m"+out+"\x1b[39m":out));
                     break;
                 }
                 case "[object Boolean]":
                 {
                     const out="[Boolean: "+String(output.valueOf())+"]";
-                    print((throwBoolean?"Uncaught ":"< ")+(repl.VirtualTerminalLevel?"\x1b[93m"+out+"\x1b[39m":out));
+                    print((throwBoolean?"< Uncaught ":"< ")+(repl.VirtualTerminalLevel?"\x1b[93m"+out+"\x1b[39m":out));
                     break;
                 }
                 case "[object Date]":
                 {
                     const out=isNaN(output)?String(output):repl.__toString__(output.toJSON());
-                    print((throwBoolean?"Uncaught ":"< ")+(repl.VirtualTerminalLevel?"\x1b[95m"+out+"\x1b[39m":out));
+                    print((throwBoolean?"< Uncaught ":"< ")+(repl.VirtualTerminalLevel?"\x1b[95m"+out+"\x1b[39m":out));
                     break;
                 }
                 case "[object Error]":
                 {
                     const out=repl.__toString__(output);
-                    if(throwBoolean)print("Uncaught "+out);
+                    if(throwBoolean)print("< Uncaught "+out);
                     else
                     {
                         let stackString=repl.__toString__(output.stack),startNumber=0,endNumber=stackString.length;
@@ -161,19 +158,19 @@ repl.__output__=function(output,throwBoolean)
                 case "[object Null]":
                 {
                     const out=String(output);
-                    print((throwBoolean?"Uncaught ":"< ")+(repl.VirtualTerminalLevel?"\x1b[1;97m"+out+"\x1b[22;39m":out));
+                    print((throwBoolean?"< Uncaught ":"< ")+(repl.VirtualTerminalLevel?"\x1b[1;97m"+out+"\x1b[22;39m":out));
                     break;
                 }
                 case "[object Number]":
                 {
                     const out="[Number: "+String(output.valueOf())+"]";
-                    print((throwBoolean?"Uncaught ":"< ")+(repl.VirtualTerminalLevel?"\x1b[93m"+out+"\x1b[39m":out));
+                    print((throwBoolean?"< Uncaught ":"< ")+(repl.VirtualTerminalLevel?"\x1b[93m"+out+"\x1b[39m":out));
                     break;
                 }
                 case "[object RegExp]":
                 {
                     const out=repl.__toString__(output);
-                    print((throwBoolean?"Uncaught ":"< ")+(repl.VirtualTerminalLevel?"\x1b[91m"+out+"\x1b[39m":out));
+                    print((throwBoolean?"< Uncaught ":"< ")+(repl.VirtualTerminalLevel?"\x1b[91m"+out+"\x1b[39m":out));
                     break;
                 }
                 case "[object String]":
@@ -182,14 +179,14 @@ repl.__output__=function(output,throwBoolean)
                     if(output.valueOf().slice(0,-1).indexOf("\n")<0)
                     {
                         out="[String: "+out+"]";
-                        print((throwBoolean?"Uncaught ":"< ")+(repl.VirtualTerminalLevel?"\x1b[92m"+out+"\x1b[39m":out));
+                        print((throwBoolean?"< Uncaught ":"< ")+(repl.VirtualTerminalLevel?"\x1b[92m"+out+"\x1b[39m":out));
                     }
                     else
                     {
                         out="[String: "+out[0]+"\\\n"+out.slice(1,-2).replace(/(?:^|\b|[^\\])(?:\\\\)*\\n/g,"$&\\\n")+out.slice(-2)+"]";
                         if(throwBoolean)
                         {
-                            print("Uncaught:");
+                            print("< Uncaught:");
                             print(repl.VirtualTerminalLevel?"\x1b[92m"+out+"\x1b[39m":out);
                         }
                         else print("< "+(repl.VirtualTerminalLevel?"\x1b[92m"+out.replace(/\n/g,"\n\x1b[39m. \x1b[92m")+"\x1b[39m":out.replace(/\n/g,"\n. ")));
@@ -199,16 +196,13 @@ repl.__output__=function(output,throwBoolean)
                 case "[object Symbol]":
                 {
                     const out="[Symbol: "+String(output.valueOf())+"]";
-                    if(out.indexOf("\n")<0)print((throwBoolean?"Uncaught ":"< ")+(repl.VirtualTerminalLevel?"\x1b[92m"+out+"\x1b[39m":out));
-                    else
+                    if(out.indexOf("\n")<0)print((throwBoolean?"< Uncaught ":"< ")+(repl.VirtualTerminalLevel?"\x1b[92m"+out+"\x1b[39m":out));
+                    else if(throwBoolean)
                     {
-                        if(throwBoolean)
-                        {
-                            print("Uncaught:");
-                            print(repl.VirtualTerminalLevel?"\x1b[92m"+out+"\x1b[39m":out);
-                        }
-                        else print("< "+(repl.VirtualTerminalLevel?"\x1b[92m"+out.replace(/\n/g,"\n\x1b[39m. \x1b[92m")+"\x1b[39m":out.replace(/\n/g,"\n. ")));
+                        print("< Uncaught:");
+                        print(repl.VirtualTerminalLevel?"\x1b[92m"+out+"\x1b[39m":out);
                     }
+                    else print("< "+(repl.VirtualTerminalLevel?"\x1b[92m"+out.replace(/\n/g,"\n\x1b[39m. \x1b[92m")+"\x1b[39m":out.replace(/\n/g,"\n. ")));
                     break;
                 }
                 default:
@@ -248,16 +242,13 @@ repl.__output__=function(output,throwBoolean)
                         }
                     },4),toStringTagString=Object.prototype.toString.call(output).slice(8,-1);
                     out=constructorNameString+(constructorNameString==toStringTagString?" ":" ["+toStringTagString+"] ")+out;
-                    if(out.indexOf("\n")>=0)
+                    if(out.indexOf("\n")<0)print(throwBoolean?"< Uncaught "+out:"< "+out);
+                    else if(throwBoolean)
                     {
-                        if(throwBoolean)
-                        {
-                            print("Uncaught:");
-                            print(out);
-                        }
-                        else print("< "+out.replace(/\n/g,"\n. "));
+                        print("< Uncaught:");
+                        print(out);
                     }
-                    else print(throwBoolean?"Uncaught "+out:"< "+out);
+                    else print("< "+out.replace(/\n/g,"\n. "));
                 }
             }
             break;
@@ -265,13 +256,13 @@ repl.__output__=function(output,throwBoolean)
         case "string":
         {
             let out=JSON.stringify(output);
-            if(output.slice(0,-1).indexOf("\n")<0)print((throwBoolean?"Uncaught ":"< ")+(repl.VirtualTerminalLevel?"\x1b[92m"+out+"\x1b[39m":out));
+            if(output.slice(0,-1).indexOf("\n")<0)print((throwBoolean?"< Uncaught ":"< ")+(repl.VirtualTerminalLevel?"\x1b[92m"+out+"\x1b[39m":out));
             else
             {
                 out=out.slice(0,-2).replace(/(?:\b|[^\\])(?:\\\\)*\\n/g,"$&\\\n")+out.slice(-2);
                 if(throwBoolean)
                 {
-                    print("Uncaught:");
+                    print("< Uncaught:");
                     print(repl.VirtualTerminalLevel?"\x1b[92m"+out+"\x1b[39m":out);
                 }
                 else print("< "+(repl.VirtualTerminalLevel?"\x1b[92m"+out.replace(/\n/g,"\n\x1b[39m. \x1b[92m")+"\x1b[39m":out.replace(/\n/g,"\n. ")));
@@ -281,41 +272,35 @@ repl.__output__=function(output,throwBoolean)
         case "symbol":
         {
             const out=String(output);
-            if(out.indexOf("\n")<0)print((throwBoolean?"Uncaught ":"< ")+(repl.VirtualTerminalLevel?"\x1b[92m"+out+"\x1b[39m":out));
-            else
+            if(out.indexOf("\n")<0)print((throwBoolean?"< Uncaught ":"< ")+(repl.VirtualTerminalLevel?"\x1b[92m"+out+"\x1b[39m":out));
+            else if(throwBoolean)
             {
-                if(throwBoolean)
-                {
-                    print("Uncaught:");
-                    print(repl.VirtualTerminalLevel?"\x1b[92m"+out+"\x1b[39m":out);
-                }
-                else print("< "+(repl.VirtualTerminalLevel?"\x1b[92m"+out.replace(/\n/g,"\n\x1b[39m. \x1b[92m")+"\x1b[39m":out.replace(/\n/g,"\n. ")));
+                print("< Uncaught:");
+                print(repl.VirtualTerminalLevel?"\x1b[92m"+out+"\x1b[39m":out);
             }
+            else print("< "+(repl.VirtualTerminalLevel?"\x1b[92m"+out.replace(/\n/g,"\n\x1b[39m. \x1b[92m")+"\x1b[39m":out.replace(/\n/g,"\n. ")));
             break;
         }
         case "undefined":
         {
             const out=String(output);
-            print((throwBoolean?"Uncaught ":"< ")+(repl.VirtualTerminalLevel?"\x1b[90m"+out+"\x1b[39m":out));
+            print((throwBoolean?"< Uncaught ":"< ")+(repl.VirtualTerminalLevel?"\x1b[90m"+out+"\x1b[39m":out));
             break;
         }
     }
 };
-print("Welcome to JavaScript REPL.");
-print('Type ".help" for more information.');
+print("< Welcome to JavaScript REPL.");
+print('< Type ".help" for more information.');
 do
 {
     repl.__inputString__=readline();
     if(!repl.__editorBoolean__)__evalFunction__(repl.__inputString__);
+    else if(repl.__inputString__)repl.__inputStringArray__.push(repl.__inputString__);
     else
     {
-        if(repl.__inputString__)repl.__inputStringArray__.push(repl.__inputString__);
-        else
-        {
-            repl.__editorBoolean__=false;
-            print("// Exiting editor mode.");
-            if(repl.__inputString__!=null)__evalFunction__(repl.__inputStringArray__.join("\n"));
-        }
+        repl.__editorBoolean__=false;
+        print("// Exiting editor mode.");
+        if(repl.__inputString__!=null)__evalFunction__(repl.__inputStringArray__.join("\n"));
     }
 }
 while(repl.__inputString__!=null);
