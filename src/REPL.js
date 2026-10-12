@@ -207,7 +207,8 @@ repl.__output__=function(output,throwBoolean)
                 }
                 default:
                 {
-                    let constructorNameString=output.constructor&&output.constructor.name?repl.__toString__(output.constructor.name):"Object",out=JSON.stringify(output,function(key,value)
+                    const constructorNameString=output.constructor&&output.constructor.name?repl.__toString__(output.constructor.name):"Object",keyArray=[],toStringTagString=Object.prototype.toString.call(output).slice(8,-1),valueArray=[];
+                    const out=constructorNameString+(constructorNameString==toStringTagString?" ":" ["+toStringTagString+"] ")+JSON.stringify(output,function(key,value)
                     {
                         switch(typeof value)
                         {
@@ -225,7 +226,34 @@ repl.__output__=function(output,throwBoolean)
                             }
                             case "object":
                             {
-                                return value==output&&key?"[Circular]":value;
+                                let indexNumber=valueArray.length-1;
+                                while(indexNumber>0&&valueArray[indexNumber]!=this)
+                                {
+                                    indexNumber--;
+                                    keyArray.pop();
+                                    valueArray.pop();
+                                }
+                                while(indexNumber>=0&&valueArray[indexNumber]!=value)indexNumber--;
+                                if(indexNumber<0)
+                                {
+                                    valueArray.push(value);
+                                    keyArray.push(key.replace(/[~/]/g,function(match)
+                                    {
+                                        switch(match)
+                                        {
+                                            case "~":
+                                            {
+                                                return "~0";
+                                            }
+                                            case "/":
+                                            {
+                                                return "~1";
+                                            }
+                                        }
+                                    }));
+                                    return value;
+                                }
+                                else return "[Circular ref: <"+keyArray.slice(0,indexNumber+1).join("/")+">]";
                             }
                             case "symbol":
                             {
@@ -240,8 +268,7 @@ repl.__output__=function(output,throwBoolean)
                                 return value;
                             }
                         }
-                    },4),toStringTagString=Object.prototype.toString.call(output).slice(8,-1);
-                    out=constructorNameString+(constructorNameString==toStringTagString?" ":" ["+toStringTagString+"] ")+out;
+                    },4);
                     if(out.indexOf("\n")<0)print(throwBoolean?"< Uncaught "+out:"< "+out);
                     else if(throwBoolean)
                     {
