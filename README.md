@@ -4,7 +4,7 @@ JavaScript REPL for JavaScript Engine.
 - Apple WebKit JavaScriptCore
 - Google Chromium V8 D8
 - Microsoft ChakraCore
-- Mozilla SpiderMonkey JSShell
+- Mozilla Firefox SpiderMonkey JSShell
 - Oracle GraalVM GraalJS
 
 Apple Webkit JavaScriptCore:
@@ -17,7 +17,7 @@ Microsoft ChakraCore:
 
 https://github.com/microsoft/ChakraCore/releases/
 
-Mozilla SpiderMonkey JSShell:
+Mozilla Firefox SpiderMonkey JSShell:
 
 https://ftp.mozilla.org/pub/firefox/releases/
 
